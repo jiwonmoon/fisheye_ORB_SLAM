@@ -101,21 +101,28 @@ bool Initializer::Initialize(const Frame &CurrentFrame, const vector<int> &vMatc
     float SH, SF;
     cv::Mat H, F;
 
-    thread threadH(&Initializer::FindHomography,this,ref(vbMatchesInliersH), ref(SH), ref(H));
-    thread threadF(&Initializer::FindFundamental,this,ref(vbMatchesInliersF), ref(SF), ref(F));
+    // thread threadH(&Initializer::FindHomography,this,ref(vbMatchesInliersH), ref(SH), ref(H));
+    // thread threadF(&Initializer::FindFundamental,this,ref(vbMatchesInliersF), ref(SF), ref(F));
 
-    // Wait until both threads have finished
-    threadH.join();
-    threadF.join();
+    // // Wait until both threads have finished
+    // threadH.join();
+    // threadF.join();
 
-    // Compute ratio of scores
-    float RH = SH/(SH+SF);
+    // // Compute ratio of scores
+    // float RH = SH/(SH+SF);
 
-    // Try to reconstruct from homography or fundamental depending on the ratio (0.40-0.45)
-    if(RH>0.40)
-        return ReconstructH(vbMatchesInliersH,H,mK,R21,t21,vP3D,vbTriangulated,1.0,50);
-    else //if(pF_HF>0.6)
-        return ReconstructF(vbMatchesInliersF,F,mK,R21,t21,vP3D,vbTriangulated,1.0,50);
+    // // Try to reconstruct from homography or fundamental depending on the ratio (0.40-0.45)
+    // if(RH>0.40){
+    //     std::cout<<"ReconstructH"<<std::endl;
+    //     return ReconstructH(vbMatchesInliersH,H,mK,R21,t21,vP3D,vbTriangulated,1.0,50);
+    // }
+    // else{ //if(pF_HF>0.6)
+    //     std::cout<<"ReconstructF"<<std::endl;
+    //     return ReconstructF(vbMatchesInliersF,F,mK,R21,t21,vP3D,vbTriangulated,1.0,50);
+    // }
+
+    Initializer::FindFundamental(vbMatchesInliersF, SF, F);
+    return ReconstructF(vbMatchesInliersF,F,mK,R21,t21,vP3D,vbTriangulated,1.0,50);
 
     return false;
 }
@@ -823,7 +830,7 @@ int Initializer::CheckRT(const cv::Mat &R, const cv::Mat &t, const vector<cv::Ke
     t.copyTo(P2.rowRange(0,3).col(3));
     P2 = K*P2;
 
-    cv::Mat O2 = -R.t()*t;
+    cv::Mat O2 = -R.t()*t;  // center
 
     int nGood=0;
 

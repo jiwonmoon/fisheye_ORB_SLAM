@@ -121,7 +121,7 @@ void EdgeSE3ProjectXYZ::linearizeOplus() {
   tmp(1,1) = fy;
   tmp(1,2) = -y/z*fy;
 
-  _jacobianOplusXi =  -1./z * tmp * T.rotation().toRotationMatrix();
+  _jacobianOplusXi = -1./z * tmp * T.rotation().toRotationMatrix();
 
   _jacobianOplusXj(0,0) =  x*y/z_2 *fx;
   _jacobianOplusXj(0,1) = -(1+(x*x/z_2)) *fx;
@@ -136,6 +136,21 @@ void EdgeSE3ProjectXYZ::linearizeOplus() {
   _jacobianOplusXj(1,3) = 0;
   _jacobianOplusXj(1,4) = -1./z *fy;
   _jacobianOplusXj(1,5) = y/z_2 *fy;
+
+  // // 일부 xyz를 world coordinate로 : JeenQ
+  // _jacobianOplusXj(0,0) =  x*xyz.y()/z_2 *fx;
+  // _jacobianOplusXj(0,1) = -(xyz.z()/z+(x*xyz.x()/z_2)) *fx;
+  // _jacobianOplusXj(0,2) = xyz.y()/z *fx;
+  // _jacobianOplusXj(0,3) = -1./z *fx;
+  // _jacobianOplusXj(0,4) = 0;
+  // _jacobianOplusXj(0,5) = x/z_2 *fx;
+
+  // _jacobianOplusXj(1,0) = (xyz.z()/z+y*xyz.y()/z_2) *fy;
+  // _jacobianOplusXj(1,1) = -xyz.x()*y/z_2 *fy;
+  // _jacobianOplusXj(1,2) = -xyz.x()/z *fy;
+  // _jacobianOplusXj(1,3) = 0;
+  // _jacobianOplusXj(1,4) = -1./z *fy;
+  // _jacobianOplusXj(1,5) = y/z_2 *fy;
 }
 
 Vector2d EdgeSE3ProjectXYZ::cam_project(const Vector3d & trans_xyz) const{

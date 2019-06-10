@@ -51,7 +51,6 @@ using namespace Eigen;
 
 typedef Matrix<double, 6, 6> Matrix6d;
 
-
 /**
  * \brief SE3 Vertex parameterized internally with a transformation matrix
  and externally with its exponential map
@@ -76,7 +75,6 @@ public:
   }
 };
 
-
 class  EdgeSE3ProjectXYZ: public  BaseBinaryEdge<2, Vector2d, VertexSBAPointXYZ, VertexSE3Expmap>{
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -100,14 +98,12 @@ public:
     return (v1->estimate().map(v2->estimate()))(2)>0.0;
   }
     
-
   virtual void linearizeOplus();
 
   Vector2d cam_project(const Vector3d & trans_xyz) const;
 
   double fx, fy, cx, cy;
 };
-
 
 class  EdgeStereoSE3ProjectXYZ: public  BaseBinaryEdge<3, Vector3d, VertexSBAPointXYZ, VertexSE3Expmap>{
 public:
@@ -131,7 +127,6 @@ public:
     const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
     return (v1->estimate().map(v2->estimate()))(2)>0.0;
   }
-
 
   virtual void linearizeOplus();
 
@@ -160,7 +155,6 @@ public:
     const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[0]);
     return (v1->estimate().map(Xw))(2)>0.0;
   }
-
 
   virtual void linearizeOplus();
 
@@ -191,7 +185,6 @@ public:
     const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[0]);
     return (v1->estimate().map(Xw))(2)>0.0;
   }
-
 
   virtual void linearizeOplus();
 

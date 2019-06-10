@@ -211,14 +211,12 @@ namespace g2o {
         }
 
         return res;
-
       }
 
       Vector3d map(const Vector3d & xyz) const
       {
         return _r*xyz + _t;
       }
-
 
       static SE3Quat exp(const Vector6d & update)
       {

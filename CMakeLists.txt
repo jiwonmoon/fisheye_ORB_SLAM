@@ -111,3 +111,14 @@ add_executable(mono_euroc
 Examples/Monocular/mono_euroc.cc)
 target_link_libraries(mono_euroc ${PROJECT_NAME})
 
+add_executable(webcam
+Examples/Monocular/webcam_test.cpp)
+target_link_libraries(webcam ${PROJECT_NAME})
+
+add_executable(video
+Examples/Monocular/video_test.cpp)
+target_link_libraries(video ${PROJECT_NAME})
+
+# add_executable(undistorted_fisheye
+# Examples/Monocular/undistorted_fisheye.cpp)
+# target_link_libraries(undistorted_fisheye ${PROJECT_NAME})

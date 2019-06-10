@@ -311,13 +311,14 @@ void Tracking::Track()
                 else
                 {
                     bOK = TrackWithMotionModel();
-                    if(!bOK)
+                    if(!bOK){
                         bOK = TrackReferenceKeyFrame();
+                    }
                 }
             }
             else
             {
-                bOK = Relocalization();
+                // bOK = Relocalization();
             }
         }
         else
@@ -326,7 +327,7 @@ void Tracking::Track()
 
             if(mState==LOST)
             {
-                bOK = Relocalization();
+                // bOK = Relocalization();
             }
             else
             {
@@ -363,7 +364,7 @@ void Tracking::Track()
                         vbOutMM = mCurrentFrame.mvbOutlier;
                         TcwMM = mCurrentFrame.mTcw.clone();
                     }
-                    bOKReloc = Relocalization();
+                    // bOKReloc = Relocalization();
 
                     if(bOKMM && !bOKReloc)
                     {
@@ -562,7 +563,6 @@ void Tracking::StereoInitialization()
 
 void Tracking::MonocularInitialization()
 {
-
     if(!mpInitializer)
     {
         // Set Reference Frame
@@ -577,7 +577,7 @@ void Tracking::MonocularInitialization()
             if(mpInitializer)
                 delete mpInitializer;
 
-            mpInitializer =  new Initializer(mCurrentFrame,1.0,200);
+            mpInitializer = new Initializer(mCurrentFrame,1.0,200);
 
             fill(mvIniMatches.begin(),mvIniMatches.end(),-1);
 
@@ -639,7 +639,6 @@ void Tracking::CreateInitialMapMonocular()
     // Create KeyFrames
     KeyFrame* pKFini = new KeyFrame(mInitialFrame,mpMap,mpKeyFrameDB);
     KeyFrame* pKFcur = new KeyFrame(mCurrentFrame,mpMap,mpKeyFrameDB);
-
 
     pKFini->ComputeBoW();
     pKFcur->ComputeBoW();
@@ -756,6 +755,8 @@ void Tracking::CheckReplacedInLastFrame()
 
 bool Tracking::TrackReferenceKeyFrame()
 {
+    std::cout<<"TrackReferenceKeyFrame call"<<std::endl;
+
     // Compute Bag of Words vector
     mCurrentFrame.ComputeBoW();
 
@@ -1517,10 +1518,10 @@ void Tracking::Reset()
     mpLocalMapper->RequestReset();
     cout << " done" << endl;
 
-    // Reset Loop Closing
-    cout << "Reseting Loop Closing...";
-    mpLoopClosing->RequestReset();
-    cout << " done" << endl;
+    // // Reset Loop Closing
+    // cout << "Reseting Loop Closing...";
+    // mpLoopClosing->RequestReset();
+    // cout << " done" << endl;
 
     // Clear BoW Database
     cout << "Reseting Database...";
